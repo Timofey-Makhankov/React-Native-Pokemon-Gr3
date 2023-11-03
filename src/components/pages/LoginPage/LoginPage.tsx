@@ -1,106 +1,96 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Image, Dimensions } from "react-native";
-import {
-  TextInput,
-  Button,
-  Text,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import React, { useContext, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import * as SecureStore from "expo-secure-store";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
+import { TextInput, Button, Text } from "react-native-paper";
+import UserService from "../../../services/UserService";
 
-function Loginpage() {
+async function save(values: { email: string; password: string }) {
+  await SecureStore.setItemAsync(values);
+  UserService.login(values);
+}
+
+async function authenticateUser() {
+  let result = await SecureStore.getItemAsync();
+
+  if (result == null) {
+    alert("Invalid Login");
+  } else {
+    //navigation.navigate("home")
+  }
+}
+
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const style = useState;
-
-  const handleLogin = () => {
-    console.log("E-Mail:", email);
-    console.log("Password:", password);
-  };
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .min(5, "Password must be at least 5 characters")
-      .required("Password is required"),
-  });
-
-  function handleChange(
-    arg0: string
-  ): (((text: string) => void) & Function) | undefined {
-    throw new Error("Function not implemented.");
-  }
 
   return (
-    <Formik
-      enableReinitialize
-      validate={(values) => {
-        const errors: { email?: string } = {};
-
-        if (!values.email) {
-          errors.email = "Required";
-        } else if (
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-          errors.email = "Invalid email address";
-        }
-
-        return errors;
-      }}
-      // onSubmit={(values, { setSubmitting }) => {
-      //   UserService()
-      //     .logIn(values.email, values.password)
-      //     .then((response) => {
-      //       localStorage.setItem("accessToken", response["accessToken"])
-      //       navigate("/author", { replace: true });
-      //     });
-      //   setSubmitting(false);
-      // }}
+    <ImageBackground
+      source={require("./assets/wp10311654.png")}
+      style={{ width: "100%", height: "100%" }}
+      blurRadius={6}
     >
-      {({ isSubmitting, isValid }) => (
-        <PaperProvider theme={customTheme}>
-          <View style={styles.container}>
-            <Image
-              source={{
-                uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png",
-              }}
-              style={styles.imageLogo}
-            />
-            <Text variant="displayLarge">Login</Text>
-            <TextInput
-              style={styles.inputField}
-              label="E-Mail"
-              value={values.email}
-              onChangeText={handleChange("email")}
-              mode="outlined"
-            />
-            <TextInput
-              style={styles.inputField}
-              label="Password"
-              value={values.password}
-              onChangeText={handleChange("password")}
-              mode="outlined"
-              secureTextEntry={true}
-            />
-            <Text style={styles.registerSwitchText} variant="titleSmall">
-              Register a new Account
-            </Text>
-            <Button
-              mode="contained"
-              onPress={handleSubmit}
-              labelStyle={styles.buttonText}
-              style={styles.loginButton}
-              disabled={isSubmitting || !isValid}
-            >
-              Login
-            </Button>
-          </View>
-        </PaperProvider>
-      )}
-    </Formik>
+      <View style={styles.container}>
+        <Image
+          source={require("./assets/International_Pokémon_logo.svg.png")}
+          style={styles.imageLogo}
+        />
+        <Text variant="displayLarge">Login</Text>
+        <TextInput
+          label="E-Mail"
+          style={styles.inputField}
+          mode="outlined"
+          value={email}
+          onChangeText={setEmail}
+          textColor="white"
+          theme={{
+            colors: {
+              onSurfaceVariant: "white",
+              primary: "white",
+            },
+          }}
+        />
+        <TextInput
+          label="Password"
+          style={styles.inputField}
+          mode="outlined"
+          value={password}
+          onChangeText={setPassword}
+          textColor="white"
+          theme={{
+            colors: {
+              onSurfaceVariant: "white",
+              primary: "white",
+            },
+          }}
+          secureTextEntry={true}
+        />
+        <Text style={styles.registerSwitchText} variant="titleSmall">
+          Register a new Account
+        </Text>
+        <Button
+          mode="contained"
+          labelStyle={styles.buttonText}
+          style={styles.loginButton}
+          onPress={() => {
+            save({ email, password });
+            authenticateUser();
+          }}
+        >
+          Login
+        </Button>
+      </View>
+    </ImageBackground>
   );
 }
+export default LoginPage;
 
 const { width } = Dimensions.get("window");
 
@@ -120,12 +110,11 @@ const styles = StyleSheet.create({
     height: 56,
     marginVertical: 10,
     borderRadius: 5,
-    backgroundColor: "#000000",
+    backgroundColor: "rgba(000, 000, 000, 0.5)",
     color: "#FFFFFF",
-    opacity: 0.5,
   },
   registerSwitchText: {
-    // color: "#FFFFFF",
+    color: "#FFFFFF",
   },
   loginButton: {
     marginTop: 25,
@@ -139,5 +128,3 @@ const styles = StyleSheet.create({
     color: "#000",
   },
 });
-
-export default Loginpage();
