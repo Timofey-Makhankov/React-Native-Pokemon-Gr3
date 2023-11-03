@@ -2,6 +2,12 @@ import React from 'react'
 import { Text, useTheme } from 'react-native-paper'
 import { View, StyleSheet } from 'react-native'
 
+/**
+ * 
+ * @param info with the pokemon base data
+ * @returns Card Details function for the pokemon card
+ * @see {@link PokemonBaseType}
+ */
 export default function CardDetail({info}: {info: PokemonBaseType}) {
     const styles = StyleSheet.create({
         container: {

@@ -11,7 +11,7 @@ import CardDetail from "../molecules/CardDetail";
 export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType }) {
     const styles = StyleSheet.create({
         card: {
-            borderWidth: 4,
+            borderWidth: 4
         },
         cardImage: {
             //borderColor: "white",
@@ -33,6 +33,7 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
     );
 
     return (
+        <View style={{ backgroundColor: '#fff', borderRadius: 15 }}>
         <Card mode="outlined" style={[styles.card, {
             borderColor: `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, 0.8)`,
             backgroundColor: `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, 0.40)`,
@@ -65,5 +66,6 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
                 <IconButton icon="pencil" mode="outlined" onPress={(event) => {}} style={styles.icons}/>
             </Card.Actions>
         </Card>
+        </View>
     );
 }
