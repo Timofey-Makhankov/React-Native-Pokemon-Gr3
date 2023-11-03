@@ -99,29 +99,7 @@ export default function PokedexPage() {
     
     return (
         <ImageBackground source={require('../../../assets/wp10311654.png')} style={{ width: '100%', height: '100%' }} blurRadius={8}>
-            <SafeAreaView style={[styles.screen]}>
-                <Image style={{ width: '100%', height: '15%', marginTop: 32 }} source={require('../../../assets/International_Pokémon_logo.svg.png')} resizeMode='contain' />
-                <Searchbar
-                style = {{ marginTop: 16, backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white' }}
-                    placeholder="Search"
-                    onChangeText={onChangeSearch}
-                    value={searchQuery}
-                />
-                <View style={{ paddingTop: 16, height: '72%' }}>
-                    <FlatList
-                        data={exampleDate}
-                        renderItem={item => <PokemonCard pokemonData={item.item} />}
-                        keyExtractor={(item) => `${item.id}`}
-                        ItemSeparatorComponent={() => (<View style={{ height: 16 }} />)}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </View>
-                <FAB
-                    icon='plus'
-                    style={[styles.fab]}
-                    onPress={() => { }}
-                />
-            </SafeAreaView>
+            
         </ImageBackground>
     )
 }
