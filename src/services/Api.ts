@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as SecureStore from "expo-secure-store";
 
-const BASE_URL = "https://noseryoung.ddns.net:3030";
+const BASE_URL = "https://noseryoung.ddns.net";
 
 const jwtKey = "access_token";
 
