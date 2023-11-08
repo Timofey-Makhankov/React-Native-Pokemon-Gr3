@@ -1,5 +1,6 @@
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { defaultAxiosInstance } from "./Api";
+import * as SecureStore from "expo-secure-store";
 
 const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
   logInUser: async (email: string, password: string) => {
@@ -7,12 +8,17 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
       email: email,
       password: password,
     };
-    const data = await api.post("login", input);
-    return data["data"]["accessToken"];
+    const data = await api.post("/login", input);
+    await SecureStore.setItemAsync("access_token", data.data.accessToken);
+    return data.data.accessToken;
   },
 
   logOut: async () => {
-    localStorage.setItem("accessToken", "");
+    const accessToken = await SecureStore.getItemAsync("access_token");
+    if (accessToken) {
+      await SecureStore.deleteItemAsync("access_token");
+      axios.defaults.headers.common["Authorization"] = "";
+    }
   },
 
   registerUser: async (email: string, password: string) => {
@@ -20,8 +26,9 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
       email: email,
       password: password,
     };
-    const data = await api.post("register", input);
-    return data["data"]["accessToken"];
+    const data = await api.post("/register", input);
+    await SecureStore.setItemAsync("access_token", data.data.accessToken);
+    return data.data.accessToken;
   },
 });
 

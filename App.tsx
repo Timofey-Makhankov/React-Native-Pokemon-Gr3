@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as SecureStore from "expo-secure-store";
@@ -10,84 +10,119 @@ import {
   ImageBackground,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import UserService from "./src/services/UserService";
-
-async function save(values: { email: string; password: string }) {
-  await SecureStore.setItemAsync(values);
-  UserService.login(values);
-}
-
-async function authenticateUser() {
-  let result = await SecureStore.getItemAsync();
-
-  if (result == null) {
-    alert("Invalid Login");
-  } else {
-    //navigation.navigate("home")
-  }
-}
+import AuthorizationService from "./src/services/AuthorisationService";
+import axios from "axios";
 
 export default function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  async function saveToken(token: string) {
+    await SecureStore.setItemAsync("bearerToken", token);
+  }
+
+  async function authenticateUser() {
+    const accessToken = await SecureStore.getItemAsync("access_token");
+
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      console.log(accessToken);
+
+      //navigate to home page
+    }
+  }
 
   return (
-    <ImageBackground
-      source={require("./assets/wp10311654.png")}
-      style={{ width: "100%", height: "100%" }}
-      blurRadius={6}
-    >
-      <View style={styles.container}>
-        <Image
-          source={require("./assets/International_Pokémon_logo.svg.png")}
-          style={styles.imageLogo}
-        />
-        <Text variant="displayLarge">Login</Text>
-        <TextInput
-          label="E-Mail"
-          style={styles.inputField}
-          mode="outlined"
-          value={email}
-          onChangeText={setEmail}
-          textColor="white"
-          theme={{
-            colors: {
-              onSurfaceVariant: "white",
-              primary: "white",
-            },
-          }}
-        />
-        <TextInput
-          label="Password"
-          style={styles.inputField}
-          mode="outlined"
-          value={password}
-          onChangeText={setPassword}
-          textColor="white"
-          theme={{
-            colors: {
-              onSurfaceVariant: "white",
-              primary: "white",
-            },
-          }}
-          secureTextEntry={true}
-        />
-        <Text style={styles.registerSwitchText} variant="titleSmall">
-          Register a new Account
-        </Text>
-        <Button
-          mode="contained"
-          labelStyle={styles.buttonText}
-          style={styles.loginButton}
-          onPress={() => {
-            save({ email, password });
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={Yup.object({
+        email: Yup.string().email().required("Required"),
+        password: Yup.string().required("Required"),
+      })}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
+          const accessToken = await authService.logInUser(
+            values.email,
+            values.password
+          );
+
+          if (accessToken) {
+            saveToken(accessToken);
             authenticateUser();
-          }}
+            console.log(accessToken);
+          } else {
+            alert("Invalid Login");
+            console.log(accessToken);
+          }
+        } catch (error) {
+          alert("An error occurred during login.");
+        }
+
+        setSubmitting(false);
+      }}
+    >
+      {({ handleSubmit, values, handleChange, errors }) => (
+        <ImageBackground
+          source={require("./assets/wp10311654.png")}
+          style={{ width: "100%", height: "100%" }}
+          blurRadius={6}
         >
-          Login
-        </Button>
-      </View>
-    </ImageBackground>
+          <View style={styles.container}>
+            <Image
+              source={require("./assets/International_Pokémon_logo.svg.png")}
+              style={styles.imageLogo}
+            />
+            <Text variant="displayLarge">Login</Text>
+            <TextInput
+              label="E-Mail"
+              style={styles.inputField}
+              mode="outlined"
+              value={values.email} // The current email input value
+              onChangeText={handleChange("email")}
+              textColor="white"
+              theme={{
+                colors: {
+                  onSurfaceVariant: "white",
+                  primary: "white",
+                },
+              }}
+            />
+            {errors.email ? (
+              <Text style={styles.errorText}>{errors.email}</Text>
+            ) : null}
+            <TextInput
+              label="Password"
+              style={styles.inputField}
+              mode="outlined"
+              value={values.password}
+              onChangeText={handleChange("password")}
+              textColor="white"
+              theme={{
+                colors: {
+                  onSurfaceVariant: "white",
+                  primary: "white",
+                },
+              }}
+              secureTextEntry={true}
+            />
+            {errors.password ? (
+              <Text style={styles.errorText}>{errors.password}</Text>
+            ) : null}
+            <Text style={styles.registerSwitchText} variant="titleSmall">
+              Register a new Account
+            </Text>
+            <Button
+              mode="contained"
+              labelStyle={styles.buttonText}
+              style={styles.loginButton}
+              onPress={() => {
+                handleSubmit();
+              }}
+            >
+              Login
+            </Button>
+          </View>
+        </ImageBackground>
+      )}
+    </Formik>
   );
 }
 
@@ -122,6 +157,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     backgroundColor: "#FFCB05",
     borderColor: "#2F6DB4",
+  },
+  errorText: {
+    color: "#D62D2D",
+    fontWeight: "700",
+    textShadowColor: "FFFFFF",
   },
   buttonText: {
     color: "#000",

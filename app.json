@@ -16,7 +16,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "usesNonExemptEncryption": false 
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
