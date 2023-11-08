@@ -10,10 +10,12 @@ import {
   ImageBackground,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import AuthorizationService from "./src/services/AuthorisationService";
+import AuthorizationService from "../../../services/AuthorisationService";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 export default function App() {
+  const navigation = useNavigation();
   async function saveToken(token: string) {
     await SecureStore.setItemAsync("bearerToken", token);
   }
@@ -24,8 +26,6 @@ export default function App() {
     if (accessToken) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       console.log(accessToken);
-
-      //navigate to home page
     }
   }
 
@@ -51,6 +51,7 @@ export default function App() {
             authenticateUser();
             console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
+            navigation.navigate("Home");
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");

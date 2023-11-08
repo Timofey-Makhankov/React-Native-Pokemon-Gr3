@@ -1,23 +1,21 @@
-import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios"
+import axios, { AxiosInstance } from "axios";
+import * as SecureStore from "expo-secure-store";
 
-const BASE_URL = "http://noseryoung.ddns.net:3030"
+const BASE_URL = "https://noseryoung.ddns.net";
 
-const jwtKey = "access_token"
+const jwtKey = "access_token";
 
 export const defaultAxiosInstance: AxiosInstance = axios.create({
-    baseURL: BASE_URL
-})
+  baseURL: BASE_URL,
+});
 
-defaultAxiosInstance.interceptors.request.use(
-    (config: InternalAxiosRequestConfig<any>) => {
-        let correctPath: boolean =
-            config.url !== "/login" && config.url !== "/register"
-        if (localStorage.getItem(jwtKey) !== "" && correctPath) {
-            config.headers.Authorization = `Bearer ${localStorage.getItem(jwtKey)}`
-        }
-        return config
-    },
-    (error: AxiosError) => {
-        return Promise.reject(error)
-    }
-)
+defaultAxiosInstance.interceptors.request.use(async (request) => {
+  console.log("trying to get token");
+  const accessToken = await SecureStore.getItemAsync(jwtKey);
+  console.log(accessToken);
+
+  if (accessToken) {
+    request.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return request;
+});
