@@ -44,15 +44,19 @@ export default function App() {
             values.password
           );
 
+          console.log(accessToken);
+
           if (accessToken) {
             saveToken(accessToken);
             authenticateUser();
             console.log(accessToken);
+            console.log("Login successful. Access Token:", accessToken);
           } else {
+            console.log("Login failed. No access token received.");
             alert("Invalid Login");
-            console.log(accessToken);
           }
         } catch (error) {
+          console.error("An error occurred during login:", error);
           alert("An error occurred during login.");
         }
 

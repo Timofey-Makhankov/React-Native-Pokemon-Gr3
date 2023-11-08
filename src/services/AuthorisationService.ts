@@ -8,8 +8,11 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
       email: email,
       password: password,
     };
+    console.log(input);
     const data = await api.post("/login", input);
+    console.log(input);
     await SecureStore.setItemAsync("access_token", data.data.accessToken);
+    console.log(data.data.accessToken);
     return data.data.accessToken;
   },
 
