@@ -7,8 +7,10 @@ import TypeChip from "../atoms/TypeChip";
 import AlphaColor from "../../Types/AlphaColor";
 import { getContainerColorFromType } from "../../util/ColorFromType";
 import CardDetail from "../molecules/CardDetail";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType }) {
+    const navigation = useNavigation();
     const styles = StyleSheet.create({
         card: {
             borderWidth: 4
@@ -27,6 +29,11 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
             borderWidth: 0,
         },
     });
+
+    const navigateToCreateEdit = () => {
+        navigation.navigate('CreateEdit' as never);
+      };
+
     const bgColor: AlphaColor = getContainerColorFromType(pokemonData.type[0])
     const _renderItem = ({ item }: { item: ElementType }) => (
         <TypeChip type={item} />
@@ -63,7 +70,7 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
             </Card.Content>
             <Card.Actions>
                 <IconButton icon="delete" mode="outlined" onPress={(event) => {}} style={styles.icons}/>
-                <IconButton icon="pencil" mode="outlined" onPress={(event) => {}} style={styles.icons}/>
+                <IconButton icon="pencil" mode="outlined" onPress={navigateToCreateEdit} style={styles.icons}/>
             </Card.Actions>
         </Card>
         </View>
