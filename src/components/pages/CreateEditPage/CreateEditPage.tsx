@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, View, Image, ScrollView, ImageBackground, Dimensions } from 'react-native'
-import { Button, HelperText, TextInput } from 'react-native-paper'
+import { Appbar, Button, HelperText, TextInput } from 'react-native-paper'
 import ElementType, { TYPE } from '../../../Types/ElementType'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -8,6 +8,7 @@ import capitalCase from '../../../util/CapitalCase'
 import PokemonType from '../../../Types/PokemonType'
 import PokemonService from '../../../services/PokemonService'
 import { AxiosError, AxiosResponse } from 'axios'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 /**
  * Return a Edit or create Page, given the provided information
@@ -15,7 +16,11 @@ import { AxiosError, AxiosResponse } from 'axios'
  * @param pokemonId number to make it an edit page, if undefined, then make it a create page
  * @returns CreateEditPage component
  */
-export default function CreateEditPage({ buttonText, pokemonId }: { buttonText: String, pokemonId: number | undefined }) {
+export default function CreateEditPage() {
+    const route = useRoute<any>()
+    const navigation = useNavigation<any>();
+    const { buttonText, pokemonId } = route.params
+
     useEffect(() => {
         console.log("inside useEffect")
         if (pokemonId !== undefined) {
@@ -63,6 +68,21 @@ export default function CreateEditPage({ buttonText, pokemonId }: { buttonText: 
             },
         }
         console.log(newPokemon)
+
+        if (pokemonId !== undefined) {
+            PokemonService().create(newPokemon).then((value) => {
+                console.log(value.data)
+                navigation.goBack()
+            }
+            ).catch(error => console.log(error))
+        } else {
+            PokemonService().update(pokemonId, newPokemon).then((value) => {
+                console.log(value.data)
+                navigation.goBack()
+            }
+            )
+            .catch(error => {console.log(error)})
+        }
     }
 
     const formik = useFormik<formikValues>({
@@ -89,8 +109,12 @@ export default function CreateEditPage({ buttonText, pokemonId }: { buttonText: 
     return (
         <ImageBackground source={require('../../../../assets/wp10311654.png')} style={styles.backgroundImage} blurRadius={8}>
             <SafeAreaView style={[styles.screen]}>
+            <Appbar.Header style={[ styles.topAppBar ]}>
+                <Appbar.BackAction onPress={() => navigation.goBack()}/>
+            </Appbar.Header>
                 <ScrollView
-                    showsVerticalScrollIndicator={false}>
+                    showsVerticalScrollIndicator={false}
+                    style={[styles.listScreen]}>
                     <Image
                         style={[styles.image]}
                         resizeMode='contain'
@@ -325,13 +349,18 @@ const styles = StyleSheet.create({
         display: 'flex',
         width: '100%',
         height: '100%',
-        paddingHorizontal: 64,
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    listScreen: {
+        paddingHorizontal: 64,
+    },
+    topAppBar: {
+        backgroundColor: "rgba(255, 255, 255, 0.0)"
     },
     backgroundImage: {
         flex: 1,
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        height: Dimensions.get('window').height + 100,
     },
     image: {
         width: '100%',
