@@ -4,12 +4,12 @@ import ElementType from "./ElementType"
  * Object representation of a Pokemon
  */
 type PokemonType = {
-    id?: number,
+    id: number,
     name: {
-        english: string,
-        japanese: string,
-        chinese: string,
-        french: string,
+        english: String,
+        japanese: String,
+        chinese: String,
+        french: String,
     },
     type: ElementType[],
     base: PokemonBaseType

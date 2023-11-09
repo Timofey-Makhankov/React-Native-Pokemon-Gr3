@@ -10,11 +10,11 @@ import * as SecureStore from "expo-secure-store";
 const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
   /**
    * Check, whether the saved token exists
-   * @returns 
+   * @returns
    */
   checkActiveToken: async () => {
-    const accessToken = await SecureStore.getItemAsync("acces_token")
-    if(accessToken){
+    const accessToken = await SecureStore.getItemAsync("acces_token");
+    if (accessToken) {
       return true;
     }
     return false;
@@ -51,12 +51,24 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
    * register a new user from given values
    * @param email string
    * @param password string
+   * @param firstName string
+   * @param lastName string
+   * @param age string
    * @returns the jwt token provided from the response
    */
-  registerUser: async (email: string, password: string) => {
+  registerUser: async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    age: string
+  ) => {
     const input = {
       email: email,
       password: password,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
     };
     const data = await api.post("/register", input);
     await SecureStore.setItemAsync("access_token", data.data.accessToken);
