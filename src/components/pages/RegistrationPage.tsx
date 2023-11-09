@@ -33,28 +33,22 @@ function RegistrationPage() {
           .max(2),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        try {
-          const accessToken = await AuthorizationService().registerUser(
+        const accessToken = await AuthorizationService()
+          .registerUser(
             values.email,
             values.password,
             values.firstName,
             values.lastName,
             values.age
-          );
-
-          console.log(accessToken);
-
-          if (accessToken) {
+          )
+          .then(() => {
             console.log("Registration successful. Access Token:", accessToken);
             navigation.navigate(BOTTOM_NAV_BAR as never);
-          } else {
-            console.log("Registration failed. No access token received.");
-            alert("Invalid Registration");
-          }
-        } catch (error) {
-          console.error("An error occurred during Registration:", error);
-          alert("An error occurred during Registration.");
-        }
+          })
+          .catch((error) => {
+            console.error("An error occurred during Registration:", error);
+            alert("An error occurred during Registration.");
+          });
 
         setSubmitting(false);
       }}
