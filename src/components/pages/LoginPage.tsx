@@ -7,14 +7,15 @@ import {
   Image,
   Dimensions,
   ImageBackground,
-  TouchableOpacity,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import AuthorizationService from "../../services/AuthorisationService";
+import AuthorizationService from "../../../src/services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
+import { REGISTER_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
 
-function LoginPage() {
+export default function App() {
   const navigation = useNavigation();
+
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
@@ -24,7 +25,8 @@ function LoginPage() {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          const accessToken = await AuthorizationService().logInUser(
+          const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
+          const accessToken = await authService.logInUser(
             values.email,
             values.password
           );
@@ -32,9 +34,8 @@ function LoginPage() {
           console.log(accessToken);
 
           if (accessToken) {
-            console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate("Main" as never);
+            navigation.navigate(BOTTOM_NAV_BAR as never);
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");
@@ -49,23 +50,21 @@ function LoginPage() {
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("../../../assets/wp10311654.png")}
+          source={require("../../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("../../../assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
-            <Text style={{ fontWeight: "600" }} variant="displayMedium">
-              Login
-            </Text>
+            <Text variant="displayLarge">Login</Text>
             <TextInput
               label="E-Mail"
               style={styles.inputField}
               mode="outlined"
-              value={values.email}
+              value={values.email} // The current email input value
               onChangeText={handleChange("email")}
               textColor="white"
               theme={{
@@ -97,9 +96,9 @@ function LoginPage() {
               <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
             <Text
-              variant="titleSmall"
               style={styles.registerSwitchText}
-              onPress={() => navigation.navigate("Registration" as never)}
+              variant="titleSmall"
+              onPress={() => navigation.navigate(REGISTER_PAGE as never)}
             >
               Register a new Account
             </Text>
@@ -161,5 +160,3 @@ const styles = StyleSheet.create({
     color: "#000",
   },
 });
-
-export default LoginPage;

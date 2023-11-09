@@ -7,11 +7,11 @@ import {
   Image,
   Dimensions,
   ImageBackground,
-  TouchableOpacity,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import AuthorizationService from "../../../src/services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
+import { LOGIN_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
 
 function RegistrationPage() {
   const navigation = useNavigation();
@@ -45,9 +45,8 @@ function RegistrationPage() {
           console.log(accessToken);
 
           if (accessToken) {
-            console.log(accessToken);
             console.log("Registration successful. Access Token:", accessToken);
-            navigation.navigate("Main" as never);
+            navigation.navigate(BOTTOM_NAV_BAR as never);
           } else {
             console.log("Registration failed. No access token received.");
             alert("Invalid Registration");
@@ -163,7 +162,7 @@ function RegistrationPage() {
             <Text
               variant="titleSmall"
               style={styles.registerSwitchText}
-              onPress={() => navigation.navigate("Login" as never)}
+              onPress={() => navigation.navigate(LOGIN_PAGE as never)}
             >
               Already Registered? Login
             </Text>
