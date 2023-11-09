@@ -8,17 +8,18 @@ import AlphaColor from "../../Types/AlphaColor";
 import { getContainerColorFromType } from "../../util/ColorFromType";
 import CardDetail from "../molecules/CardDetail";
 import { useNavigation } from "@react-navigation/native";
+import { EDIT_PAGE } from "../../ScreenRouterLinks";
 
+/**
+ * Pokemon Card Component for displaing pokemon information
+ * @param pokemonData {@link PokemonType} for a given pokemon 
+ * @returns Pokemon Card component
+ */
 export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType }) {
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const styles = StyleSheet.create({
         card: {
             borderWidth: 4
-        },
-        cardImage: {
-            //borderColor: "white",
-            //objectFit: 'scale-down',
-            //paddingHorizontal: 4
         },
         typeContainer: {
             marginTop: 8,
@@ -29,10 +30,6 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
             borderWidth: 0,
         },
     });
-
-    const navigateToCreateEdit = () => {
-        navigation.navigate('CreateEdit' as never);
-      };
 
     const bgColor: AlphaColor = getContainerColorFromType(pokemonData.type[0])
     const _renderItem = ({ item }: { item: ElementType }) => (
@@ -57,6 +54,7 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
                         "000" + pokemonData.id
                     ).slice(-3)}.png`,
                 }}
+                alt={`A Pokemon with an english name: ${pokemonData.name.english}`}
             />
             <Card.Content>
                 <FlatList 
@@ -70,7 +68,9 @@ export default function PokemonCard({ pokemonData }: { pokemonData: PokemonType 
             </Card.Content>
             <Card.Actions>
                 <IconButton icon="delete" mode="outlined" onPress={(event) => {}} style={styles.icons}/>
-                <IconButton icon="pencil" mode="outlined" onPress={navigateToCreateEdit} style={styles.icons}/>
+                <IconButton icon="pencil" mode="outlined" onPress={(_) => {
+                    navigation.navigate(EDIT_PAGE, { pokemonId: pokemonData.id, buttonText: "Update" });
+                }} style={styles.icons}/>
             </Card.Actions>
         </Card>
         </View>
