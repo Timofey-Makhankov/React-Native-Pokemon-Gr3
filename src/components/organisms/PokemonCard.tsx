@@ -7,8 +7,9 @@ import TypeChip from "../atoms/TypeChip";
 import AlphaColor from "../../Types/AlphaColor";
 import { getContainerColorFromType } from "../../util/ColorFromType";
 import CardDetail from "../molecules/CardDetail";
-import { useNavigation } from "@react-navigation/native";
-import { EDIT_PAGE } from "../../util/ScreenRouterLinks";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { EDIT_PAGE, POKEDEX_PAGE } from "../../util/ScreenRouterLinks";
+import PokemonService from "../../services/PokemonService";
 
 
 /**
@@ -23,6 +24,7 @@ export default function PokemonCard({
 }) {
   const navigation = useNavigation();
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+
   const styles = StyleSheet.create({
     card: {
       borderWidth: 4,
@@ -44,8 +46,19 @@ export default function PokemonCard({
     setDeleteDialogVisible(!deleteDialogVisible);
   };
 
-  const handleDelete = () => {
-    console.log("deleted pokemon");
+  const handleDelete = (pokemon: PokemonType) => {
+    PokemonService().delete(pokemon.id!).then(() => {
+      console.log("Pokemon deleted");
+      toggleDeleteDialog();
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: POKEDEX_PAGE }, 
+          ],
+        })
+      );
+    })
   }
 
   const bgColor: AlphaColor = getContainerColorFromType(pokemonData.type[0]);
@@ -119,7 +132,7 @@ export default function PokemonCard({
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={toggleDeleteDialog}>Cancel</Button>
-            <Button onPress={handleDelete} labelStyle={{ color: 'red' }}>Delete</Button>
+            <Button onPress={() => handleDelete(pokemonData)} labelStyle={{ color: 'red' }}>Delete</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>

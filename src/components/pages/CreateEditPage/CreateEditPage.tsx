@@ -8,7 +8,8 @@ import capitalCase from '../../../util/CapitalCase'
 import PokemonType from '../../../Types/PokemonType'
 import PokemonService from '../../../services/PokemonService'
 import { AxiosError, AxiosResponse } from 'axios'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native'
+import { POKEDEX_PAGE } from '../../../util/ScreenRouterLinks'
 
 /**
  * Return a Edit or create Page, given the provided information
@@ -43,6 +44,16 @@ export default function CreateEditPage() {
         }
     }, [])
 
+    const navigateBackToPage = () => {
+        navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                { name: POKEDEX_PAGE }, 
+              ],
+            })
+          );
+    }
 
     const onSubmit = (values: formikValues) => {
         const types: ElementType[] = []
@@ -72,17 +83,20 @@ export default function CreateEditPage() {
         if (pokemonId === undefined) {
             PokemonService().create(newPokemon).then((value) => {
                 console.log(value.data)
+                navigateBackToPage();
                 navigation.goBack()
             }
             ).catch((error: AxiosError) => console.log(error.message))
         } else {
             PokemonService().update(pokemonId, newPokemon).then((value) => {
                 console.log(value.data)
+                navigateBackToPage();
                 navigation.goBack()
             }
             )
             .catch((error: AxiosError) => {console.log(error.message)})
         }
+        
     }
 
     const formik = useFormik<formikValues>({
