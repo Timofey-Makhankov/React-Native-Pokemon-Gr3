@@ -14,7 +14,7 @@ import { TextInput, Button, Text } from "react-native-paper";
 import AuthorizationService from "../../../services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { BOTTOM_NAV_BAR, CREATE_EDIT_PAGE, HOME_PAGE, REGISTER_PAGE } from "../../../ScreenRouterLinks";
+import { BOTTOM_NAV_BAR, REGISTER_PAGE } from "../../../ScreenRouterLinks";
 
 export default function App() {
   const navigation = useNavigation<any>();
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#D62D2D",
     fontWeight: "700",
-    textShadowColor: "FFFFFF",
+    textShadowColor: "#FFFFFF",
   },
   buttonText: {
     color: "#000",

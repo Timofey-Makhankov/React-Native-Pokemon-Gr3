@@ -39,7 +39,7 @@ export default function PokedexPage() {
     const [refreshing, setRefreshing] = useState(false)
     
     useEffect(() => {
-        updateList
+        updateList()
     }, [])
 
     const updateList = () => {

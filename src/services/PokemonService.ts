@@ -37,7 +37,7 @@ const PokemonService = (api: AxiosInstance = defaultAxiosInstance) => ({
      * @see {@link PokemonType}
      */
     create: async (pokemon: PokemonType) : Promise<AxiosResponse<PokemonType>> => {
-        const data  = await api.post("/pokemons/", pokemon)
+        const data  = await api.post("/pokemons", pokemon)
         return data
     },
 
