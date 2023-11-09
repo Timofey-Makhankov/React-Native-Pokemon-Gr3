@@ -201,10 +201,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 5,
     backgroundColor: "rgba(000, 000, 000, 0.5)",
-    color: "#FFFFFF",
+    color: "#fff",
   },
   registerSwitchText: {
-    color: "#FFFFFF",
+    color: "#fff",
   },
   registerButton: {
     marginTop: 25,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#D62D2D",
     fontWeight: "700",
-    textShadowColor: "FFFFFF",
+    textShadowColor: "#fff",
   },
   buttonText: {
     color: "#000",

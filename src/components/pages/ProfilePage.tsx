@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     height: 56,
     marginVertical: 10,
     borderRadius: 5,
-    backgroundColor: "rgba(000, 000, 000, 0.4)",
-    color: "#FFFFFF",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    color: "#fff",
     alignItems: "center",
   },
   chipText: {
