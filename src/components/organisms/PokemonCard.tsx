@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Card, Text, IconButton } from "react-native-paper";
+import { useEffect, useState } from "react";
+import { Card, Text, IconButton, Dialog, Paragraph, Portal, Button } from "react-native-paper";
 import PokemonType from "../../Types/PokemonType";
 import { FlatList, SafeAreaView, View, StyleSheet } from "react-native";
 import ElementType from "../../Types/ElementType";
@@ -9,6 +9,7 @@ import { getContainerColorFromType } from "../../util/ColorFromType";
 import CardDetail from "../molecules/CardDetail";
 import { useNavigation } from "@react-navigation/native";
 import { EDIT_PAGE } from "../../util/ScreenRouterLinks";
+
 
 /**
  * Pokemon Card Component for displaing pokemon information
@@ -20,7 +21,8 @@ export default function PokemonCard({
 }: {
   pokemonData: PokemonType;
 }) {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation();
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const styles = StyleSheet.create({
     card: {
       borderWidth: 4,
@@ -34,6 +36,18 @@ export default function PokemonCard({
       borderWidth: 0,
     },
   });
+
+  const navigateToCreateEdit = () => {
+    navigation.navigate("CreateEdit" as never);
+  };
+  const toggleDeleteDialog = () => {
+    setDeleteDialogVisible(!deleteDialogVisible);
+  };
+
+  const handleDelete = () => {
+    console.log("deleted pokemon");
+  }
+
   const bgColor: AlphaColor = getContainerColorFromType(pokemonData.type[0]);
   const _renderItem = ({ item }: { item: ElementType }) => (
     <TypeChip type={item} />
@@ -80,7 +94,7 @@ export default function PokemonCard({
           <IconButton
             icon="delete"
             mode="outlined"
-            onPress={(event) => {}}
+            onPress={toggleDeleteDialog}
             style={styles.icons}
           />
           <IconButton
@@ -96,6 +110,20 @@ export default function PokemonCard({
           />
         </Card.Actions>
       </Card>
+      
+      <Portal>
+        <Dialog visible={deleteDialogVisible} onDismiss={toggleDeleteDialog}>
+          <Dialog.Title>Confirm Deletion</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>Are you sure you want to delete this Pokémon?</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={toggleDeleteDialog}>Cancel</Button>
+            <Button onPress={handleDelete} labelStyle={{ color: 'red' }}>Delete</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+      
     </View>
   );
 }
