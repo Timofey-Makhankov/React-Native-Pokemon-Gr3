@@ -21,7 +21,7 @@ export default function PokemonCard({
 }: {
   pokemonData: PokemonType;
 }) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const styles = StyleSheet.create({
     card: {
@@ -38,7 +38,7 @@ export default function PokemonCard({
   });
 
   const navigateToCreateEdit = () => {
-    navigation.navigate("CreateEdit" as never);
+    navigation.navigate("CreateEdit");
   };
   const toggleDeleteDialog = () => {
     setDeleteDialogVisible(!deleteDialogVisible);

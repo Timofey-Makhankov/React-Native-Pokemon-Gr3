@@ -49,7 +49,7 @@ const PokemonService = (api: AxiosInstance = defaultAxiosInstance) => ({
      * @see {@link PokemonType}
      */
     update: async (id: number, pokemon: PokemonType) : Promise<AxiosResponse<PokemonType>> => {
-        const data = await api.put(`/pokemons(${id})`, pokemon)
+        const data = await api.put(`/pokemons/${id}`, pokemon)
         return data
     },
 

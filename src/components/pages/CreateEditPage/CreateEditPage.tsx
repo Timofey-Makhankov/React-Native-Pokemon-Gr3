@@ -76,11 +76,12 @@ export default function CreateEditPage() {
             }
             ).catch((error: AxiosError) => console.log(error.message))
         } else {
+            newPokemon.id = pokemonId
             PokemonService().update(pokemonId, newPokemon).then((value) => {
-                console.log(value.data)
+                console.log(pokemonId)
+                console.log(value)
                 navigation.goBack()
-            }
-            )
+            })
             .catch((error: AxiosError) => {console.log(error.message)})
         }
     }
