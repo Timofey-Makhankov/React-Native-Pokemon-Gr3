@@ -41,8 +41,7 @@ function RegistrationPage() {
             values.lastName,
             values.age
           )
-          .then((accessToken) => {
-            console.log("Registration successful. Access Token:", accessToken);
+          .then((_accessToken) => {
             navigation.navigate(BOTTOM_NAV_BAR);
           })
           .catch((error) => {

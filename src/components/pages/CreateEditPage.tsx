@@ -26,7 +26,6 @@ export default function CreateEditPage() {
      * Get the pokemon that is provided, then pokemonId is not undefined
      */
     useEffect(() => {
-        console.log("inside useEffect")
         if (pokemonId !== undefined) {
             PokemonService().getById(pokemonId).then((value: AxiosResponse<PokemonType>) => { 
                 formik.setValues({ 
@@ -86,19 +85,16 @@ export default function CreateEditPage() {
                 Speed: parseInt(values.speed)
             },
         }
-        console.log(newPokemon)
 
         if (pokemonId === undefined) {
-            PokemonService().create(newPokemon).then((value) => {
-                console.log(value.data)
+            PokemonService().create(newPokemon).then((_value) => {
                 navigateBackToPage();
                 navigation.goBack()
             }
             ).catch((error: AxiosError) => console.log(error.message))
         } else {
             newPokemon.id = pokemonId
-            PokemonService().update(pokemonId, newPokemon).then((value) => {
-                console.log(value.data)
+            PokemonService().update(pokemonId, newPokemon).then((_value) => {
                 navigateBackToPage();
                 navigation.goBack()
             })
@@ -129,7 +125,7 @@ export default function CreateEditPage() {
     })
 
     return (
-        <ImageBackground source={require('../../../../assets/wp10311654.png')} style={styles.backgroundImage} blurRadius={8}>
+        <ImageBackground source={require('../../../assets/wp10311654.png')} style={styles.backgroundImage} blurRadius={8}>
             <SafeAreaView style={[styles.screen]}>
             <Appbar.Header style={[ styles.topAppBar ]}>
                 <Appbar.BackAction onPress={() => navigation.goBack()}/>
@@ -140,7 +136,7 @@ export default function CreateEditPage() {
                     <Image
                         style={[styles.image]}
                         resizeMode='contain'
-                        source={require('../../../../assets/International_Pokémon_logo.svg.png')}
+                        source={require('../../../assets/International_Pokémon_logo.svg.png')}
                     />
                     <TextInput
                         id='name'

@@ -31,7 +31,6 @@ export default function PokedexPage() {
         setRefreshing(true)
         PokemonService().getAll()
             .then((value) => {
-                console.log(value)
                 setPokemonList(value.data)
                 setFilteredList(value.data)
             })

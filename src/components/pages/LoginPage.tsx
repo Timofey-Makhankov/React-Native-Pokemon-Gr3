@@ -30,8 +30,7 @@ export default function App() {
       onSubmit={async (values, { setSubmitting }) => {
         AuthorizationService()
           .logInUser(values.email, values.password)
-          .then((accessToken) => {
-            console.log("Login successful. Access Token:", accessToken);
+          .then((_accessToken) => {
             navigation.navigate(BOTTOM_NAV_BAR as never);
           })
           .catch((error) => {
