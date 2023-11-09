@@ -1,14 +1,6 @@
 # üK 335: Mobile-Applikationen aufsetzten 
 In diesem Abschnitt werden wir Ihnen eine kurze Anleitung zur Einrichtung unseres Projekts geben. In unserem Projekt verwenden wir die React Native- und Expo-Bibliothek, den Paketmanager Yarn und als Entwicklungsumgebung Android Studio.
 
-## Dokumentation:
-
-Die Dokumentation findet man unter dem doc Folder
-
-[Dokumentation als PDF]()
-
-[Manual Testing Sheet auf Excel](./doc/Manual%20Testing.xlsx)
-
 ## Vorbereitung:
 Vor der Einrichtung des Projekts stellen Sie sicher, dass die folgende Software gemäss ihrer Anleitung lokal auf dem Arbeitsgerät installiert ist:
 - [Visual Studio Code](https://code.visualstudio.com/docs/setup/windows)
@@ -41,3 +33,11 @@ r
 für das Programm erneut zu laden.
 
 Nachdem alles reibungslos funktioniert, werden Sie die App sehen können.
+
+## Dokumentation:
+
+Die Dokumentation findet man unter dem doc Folder
+
+[Dokumentation als PDF]()
+
+[Manual Testing Sheet auf Excel](./doc/Manual%20Testing.xlsx)

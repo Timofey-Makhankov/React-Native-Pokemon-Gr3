@@ -1,10 +1,23 @@
 import ElementType from "../../Types/ElementType";
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import { getChipColorFromType, getContainerColorFromType } from "../../util/ColorFromType";
-import AlphaColor from "../../Types/AlphaColor";
+import { getChipColorFromType } from "../../util/ColorFromType";
 import ChipColorsType from "../../Types/ChipColorsType";
 
+/**
+ * return a pokemon Type Chip that corresponds to given Type with colors
+ * @param type {@link ElementType} of a pokemon
+ * @returns Type Chip component
+ */
+export default function TypeChip({ type }: { type: ElementType }) {
+    const { container, text }: ChipColorsType = getChipColorFromType(type)
+    return (
+        // colors have to be defined inside the component
+        <View style={[styles.container, { backgroundColor: `rgba(${container.red}, ${container.green}, ${container.blue}, 0.65)` }]}>
+            <Text variant='labelLarge' style={[styles.text, { color: `rgb(${text.red}, ${text.green}, ${text.blue})` }]}>{type}</Text>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -16,17 +29,3 @@ const styles = StyleSheet.create({
         paddingVertical: 8
     }
 })
-
-/**
- * return a pokemon Type Chip that corresponds to given Type with colors
- * @param type {@link ElementType} of a pokemon
- * @returns Type Chip component
- */
-export default function TypeChip({ type }: { type: ElementType }) {
-    const { container, text }: ChipColorsType = getChipColorFromType(type)
-    return (
-        <View style={[styles.container, { backgroundColor: `rgba(${container.red}, ${container.green}, ${container.blue}, 0.65)` }]}>
-            <Text variant='labelLarge' style={[styles.text, { color: `rgb(${text.red}, ${text.green}, ${text.blue})` }]}>{type}</Text>
-        </View>
-    )
-}

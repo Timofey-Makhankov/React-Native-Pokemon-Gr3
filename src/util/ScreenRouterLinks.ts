@@ -1,3 +1,5 @@
+// All routes are defined as constants
+
 export const LOGIN_PAGE = "/login";
 export const REGISTER_PAGE = "/register";
 export const POKEDEX_PAGE = "Pokedex";

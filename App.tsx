@@ -7,7 +7,7 @@ import { PaperProvider } from "react-native-paper";
 import PokedexPage from "./src/components/pages/PokedexPage";
 import ProfilePage from "./src/components/pages/ProfilePage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CreateEditPage from "./src/components/pages/CreateEditPage/CreateEditPage";
+import CreateEditPage from "./src/components/pages/CreateEditPage";
 import AuthorizationService from "./src/services/AuthorisationService";
 import { useEffect, useState } from "react";
 import RegistrationPage from "./src/components/pages/RegistrationPage";

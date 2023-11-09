@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LOGIN_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
 
 function RegistrationPage() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   return (
     <Formik
@@ -43,7 +43,7 @@ function RegistrationPage() {
           )
           .then((accessToken) => {
             console.log("Registration successful. Access Token:", accessToken);
-            navigation.navigate(BOTTOM_NAV_BAR as never);
+            navigation.navigate(BOTTOM_NAV_BAR);
           })
           .catch((error) => {
             console.error("An error occurred during Registration:", error);
@@ -61,7 +61,7 @@ function RegistrationPage() {
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
           source={require("../../../assets/wp10311654.png")}
-          style={{ width: "100%", height: "100%" }}
+          style={styles.backgroundImage}
           blurRadius={6}
         >
           <View style={styles.container}>
@@ -69,7 +69,7 @@ function RegistrationPage() {
               source={require("../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
-            <Text style={{ fontWeight: "600" }} variant="displayMedium">
+            <Text style={styles.text} variant="displayMedium">
               Regsiter
             </Text>
             <TextInput
@@ -222,6 +222,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#000",
   },
+  backgroundImage: { 
+    width: "100%", 
+    height: "100%" 
+  },
+  text: { 
+    fontWeight: "600" 
+  }
+  
 });
 
 export default RegistrationPage;

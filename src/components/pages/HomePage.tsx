@@ -21,17 +21,17 @@ export default function HomePage() {
     >
       <SafeAreaView style={[styles.screen]}>
         <Image
-          style={{ width: "100%", height: "15%", marginTop: 32 }}
+          style={styles.logoImage}
           source={require("../../../assets/International_Pokémon_logo.svg.png")}
           resizeMode="contain"
         />
         <Image
-          style={{ width: "100%", height: "50%", marginTop: 20 }}
+          style={styles.pickachuImage}
           source={require("../../../assets/pikachu.png")}
           resizeMode="contain"
         ></Image>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ fontSize: 28, color: "white" }}>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>
             Gotta Catch 'Em All!
           </Text>
         </View>
@@ -46,6 +46,23 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  logoImage: {
+    width: "100%", 
+    height: "15%", 
+    marginTop: 32
+  },
+  pickachuImage: {
+    width: "100%", 
+    height: "50%", 
+    marginTop: 20
+  },
+  textContainer: {
+    alignItems: "center"
+  },
+  text: {
+    fontSize: 28, 
+    color: "white"
   },
   backgroundImage: {
     flex: 1,

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { SafeAreaView, StyleSheet, View, Image, ScrollView, ImageBackground, Dimensions } from 'react-native'
+import React, { useEffect } from 'react'
+import { SafeAreaView, StyleSheet, Image, ScrollView, ImageBackground, Dimensions } from 'react-native'
 import { Appbar, Button, HelperText, TextInput } from 'react-native-paper'
-import ElementType, { TYPE } from '../../../Types/ElementType'
+import ElementType, { TYPE } from '../../Types/ElementType'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import capitalCase from '../../../util/CapitalCase'
-import PokemonType from '../../../Types/PokemonType'
-import PokemonService from '../../../services/PokemonService'
+import capitalCase from '../../util/CapitalCase'
+import PokemonType from '../../Types/PokemonType'
+import PokemonService from '../../services/PokemonService'
 import { AxiosError, AxiosResponse } from 'axios'
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native'
-import { POKEDEX_PAGE } from '../../../util/ScreenRouterLinks'
+import { POKEDEX_PAGE } from '../../util/ScreenRouterLinks'
 
 /**
  * Return a Edit or create Page, given the provided information
@@ -22,6 +22,9 @@ export default function CreateEditPage() {
     const navigation = useNavigation<any>();
     const { buttonText, pokemonId } = route.params
 
+    /**
+     * Get the pokemon that is provided, then pokemonId is not undefined
+     */
     useEffect(() => {
         console.log("inside useEffect")
         if (pokemonId !== undefined) {
@@ -55,6 +58,11 @@ export default function CreateEditPage() {
           );
     }
 
+    /**
+     * when submitting, when the pokemonId is undefined, creates a new pokemon from given values. 
+     * If PokemonId is defined, it will update a pokemon from given pokemonId and values
+     * @param values to be saved or updated to
+     */
     const onSubmit = (values: formikValues) => {
         const types: ElementType[] = []
         types.push(values.type as ElementType)

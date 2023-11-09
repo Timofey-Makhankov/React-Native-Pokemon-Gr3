@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Card, Text, IconButton, Dialog, Paragraph, Portal, Button } from "react-native-paper";
+import { useState } from "react";
+import { Card, IconButton, Dialog, Paragraph, Portal, Button } from "react-native-paper";
 import PokemonType from "../../Types/PokemonType";
-import { FlatList, SafeAreaView, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import ElementType from "../../Types/ElementType";
 import TypeChip from "../atoms/TypeChip";
 import AlphaColor from "../../Types/AlphaColor";
@@ -25,27 +25,14 @@ export default function PokemonCard({
   const navigation = useNavigation<any>();
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
-  const styles = StyleSheet.create({
-    card: {
-      borderWidth: 4,
-    },
-    typeContainer: {
-      marginTop: 8,
-      width: "100%",
-      flexDirection: "row",
-    },
-    icons: {
-      borderWidth: 0,
-    },
-  });
-
-  const navigateToCreateEdit = () => {
-    navigation.navigate("CreateEdit");
-  };
   const toggleDeleteDialog = () => {
     setDeleteDialogVisible(!deleteDialogVisible);
   };
 
+  /**
+   * handles the delete of a pokemon
+   * @param pokemon object to be deleted
+   */
   const handleDelete = (pokemon: PokemonType) => {
     PokemonService().delete(pokemon.id!).then(() => {
       console.log("Pokemon deleted");
@@ -62,16 +49,18 @@ export default function PokemonCard({
   }
 
   const bgColor: AlphaColor = getContainerColorFromType(pokemonData.type[0]);
+  
   const _renderItem = ({ item }: { item: ElementType }) => (
     <TypeChip type={item} />
   );
 
   return (
-    <View style={{ backgroundColor: "#fff", borderRadius: 15 }}>
+    <View style={styles.view}>
       <Card
         mode="outlined"
         style={[
           styles.card,
+          // The Color has to be set in the component
           {
             borderColor: `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, 0.8)`,
             backgroundColor: `rgba(${bgColor.red}, ${bgColor.green}, ${bgColor.blue}, 0.40)`,
@@ -140,3 +129,21 @@ export default function PokemonCard({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    backgroundColor: "#fff",
+    borderRadius: 15
+  },
+  card: {
+    borderWidth: 4,
+  },
+  typeContainer: {
+    marginTop: 8,
+    width: "100%",
+    flexDirection: "row",
+  },
+  icons: {
+    borderWidth: 0,
+  },
+});

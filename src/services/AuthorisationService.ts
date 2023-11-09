@@ -1,7 +1,10 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { defaultAxiosInstance } from "./Api";
 import * as SecureStore from "expo-secure-store";
 
+/**
+ * Type for defining the response
+ */
 type userResponse = {
   accessToken: string,
   user: {
@@ -14,8 +17,8 @@ type userResponse = {
 }
 
 /**
- * The Authorization for authorizing users
- * @param api of an axios instance. gives defaultAxiosInstance when no api is provided
+ * The Authorization Service for authorizing users
+ * @param api of an axios instance. sets defaultAxiosInstance when no api is provided
  * @returns a list of function used by the service
  */
 const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
@@ -32,9 +35,9 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
   },
 
   /**
-   * log a user and save the JWT token to device
-   * @param email string
-   * @param password string
+   * login a new user from given values and save the JWT token and UserDetails to the device
+   * @param email string for the user
+   * @param password string for authentication
    * @returns the jwt token provided from the response
    */
   logInUser: async (email: string, password: string) => {
@@ -49,7 +52,7 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
   },
 
   /**
-   * logout a user from the application and delete the JWT token on the device
+   * logout a user from the application and delete the JWT token and userDetails on the device
    */
   logOut: async () => {
     const accessToken = await SecureStore.getItemAsync("access_token");
@@ -60,12 +63,12 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
   },
 
   /**
-   * register a new user from given values
-   * @param email string
-   * @param password string
-   * @param firstName string
-   * @param lastName string
-   * @param age string
+   * register a new user from given values and save the JWT token and UserDetails to the device
+   * @param email string for the user
+   * @param password string for authentication
+   * @param firstName string for the user
+   * @param lastName string for the user
+   * @param age string for the user
    * @returns the jwt token provided from the response
    */
   registerUser: async (

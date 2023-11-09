@@ -13,14 +13,6 @@ import { useNavigation } from "@react-navigation/native";
 import { LOGIN_PAGE } from "../../util/ScreenRouterLinks";
 import AuthorizationService from "../../services/AuthorisationService";
 
-export type UserDetail = {
-  id?: number;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  age?: number;
-};
-
 function ProfilePage() {
   const navigation = useNavigation();
   const [user, setUser] = useState<UserDetail | undefined>(undefined);
@@ -87,6 +79,14 @@ function ProfilePage() {
     </ImageBackground>
   );
 }
+
+export type UserDetail = {
+  id?: number;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  age?: number;
+};
 
 const styles = StyleSheet.create({
   screen: {

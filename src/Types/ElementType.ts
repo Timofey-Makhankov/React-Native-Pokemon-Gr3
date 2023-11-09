@@ -1,3 +1,6 @@
+/**
+ * Define All Pokemon Types
+ */
 export const TYPE = {
   FIRE: "Fire",
   GRASS: "Grass",

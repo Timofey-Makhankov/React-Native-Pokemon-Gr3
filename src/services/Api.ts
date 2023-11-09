@@ -6,6 +6,9 @@ const BASE_URL = "https://noseryoung.ddns.net";
 
 const jwtKey = "access_token";
 
+/**
+ * Default configuration of the axios instance with given BaseURL
+ */
 export const defaultAxiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
 });

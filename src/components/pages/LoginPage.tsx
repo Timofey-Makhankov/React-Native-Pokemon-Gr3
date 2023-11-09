@@ -13,6 +13,10 @@ import AuthorizationService from "../../../src/services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
 import { REGISTER_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
 
+/**
+ * Login Page for the Application
+ * @returns Login Page Component
+ */
 export default function App() {
   const navigation = useNavigation();
 
@@ -43,7 +47,7 @@ export default function App() {
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
           source={require("../../../assets/wp10311654.png")}
-          style={{ width: "100%", height: "100%" }}
+          style={styles.backgroundImage}
           blurRadius={6}
         >
           <View style={styles.container}>
@@ -130,10 +134,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 5,
     backgroundColor: "rgba(000, 000, 000, 0.5)",
-    color: "#FFFFFF",
+    color: "#fff",
   },
   registerSwitchText: {
-    color: "#FFFFFF",
+    color: "#fff",
   },
   loginButton: {
     marginTop: 25,
@@ -146,9 +150,13 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#D62D2D",
     fontWeight: "700",
-    textShadowColor: "FFFFFF",
+    textShadowColor: "#fff",
   },
   buttonText: {
     color: "#000",
   },
+  backgroundImage: {
+    width: "100%",
+    height: "100%"
+  }
 });

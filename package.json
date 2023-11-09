@@ -5,7 +5,6 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "android:log": "expo start --android --localhost",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },

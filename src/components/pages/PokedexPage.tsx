@@ -1,37 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, View, ImageBackground, Image, FlatList } from 'react-native'
-import { BottomNavigation, FAB, Searchbar } from 'react-native-paper'
+import { FAB, Searchbar } from 'react-native-paper'
 import PokemonCard from '../organisms/PokemonCard'
 import PokemonType from '../../Types/PokemonType'
 import PokemonService from '../../services/PokemonService'
 import { useNavigation } from '@react-navigation/native'
 import { CREATE_PAGE } from '../../util/ScreenRouterLinks'
-
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        width: '100%',
-        paddingHorizontal: 20,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
-    fab: {
-        position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: 0,
-    },
-    searchBar: {
-        marginTop: 16,
-        backgroundColor:
-        'rgba(255, 255, 255, 0.2)',
-        color: 'white' 
-    },
-    image: {
-        width: '100%',
-        height: '15%',
-        marginTop: 32
-    }
-})
 
 /**
  * Pokedex Page with all the pokemons in a list
@@ -67,7 +41,7 @@ export default function PokedexPage() {
 
 
     return (
-        <ImageBackground source={require('../../../assets/wp10311654.png')} style={{ width: '100%', height: '100%' }} blurRadius={8}>
+        <ImageBackground source={require('../../../assets/wp10311654.png')} style={styles.backgroundImage} blurRadius={8}>
             <SafeAreaView style={[styles.screen]}>
                 <Image style={styles.image} source={require('../../../assets/International_Pokémon_logo.svg.png')} resizeMode='contain' />
                 <Searchbar
@@ -76,9 +50,9 @@ export default function PokedexPage() {
                     onChangeText={onChangeSearch}
                     value={searchQuery}
                 />
-                <View style={{ paddingTop: 32, height: '72%' }}>
+                <View style={styles.listContainer}>
                     <FlatList
-                    style={{ marginBottom: 64 }}
+                    style={styles.list}
                         data={filterdList}
                         refreshing={refreshing}
                         onRefresh={() => updateList()}
@@ -97,3 +71,40 @@ export default function PokedexPage() {
         </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        width: '100%',
+        paddingHorizontal: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+    },
+    searchBar: {
+        marginTop: 16,
+        backgroundColor:
+        'rgba(255, 255, 255, 0.2)',
+        color: 'white' 
+    },
+    image: {
+        width: '100%',
+        height: '15%',
+        marginTop: 32
+    },
+    list: {
+        marginBottom: 64
+    },
+    listContainer: {
+        paddingTop: 32,
+        height: '72%'
+    },
+    backgroundImage: { 
+        width: '100%',
+        height: '100%' 
+    }
+})
