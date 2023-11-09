@@ -24,7 +24,8 @@ export default function App() {
         password: Yup.string().required("Required"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        AuthorizationService().logInUser(values.email, values.password)
+        AuthorizationService()
+          .logInUser(values.email, values.password)
           .then((accessToken) => {
             console.log("Login successful. Access Token:", accessToken);
             navigation.navigate(BOTTOM_NAV_BAR as never);
@@ -33,6 +34,9 @@ export default function App() {
             console.error("An error occurred during login:", error);
             alert("An error occurred during login.");
           });
+
+        values.email = "";
+        values.password = "";
         setSubmitting(false);
       }}
     >
