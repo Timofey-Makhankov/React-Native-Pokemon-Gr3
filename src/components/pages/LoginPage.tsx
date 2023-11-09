@@ -15,7 +15,6 @@ import { useNavigation } from "@react-navigation/native";
 
 function LoginPage() {
   const navigation = useNavigation();
-
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
@@ -35,7 +34,7 @@ function LoginPage() {
           if (accessToken) {
             console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate('Main' as never); 
+            navigation.navigate("Main" as never);
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");
@@ -50,13 +49,13 @@ function LoginPage() {
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("./assets/wp10311654.png")}
+          source={require("../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("./assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
             <Text style={{ fontWeight: "600" }} variant="displayMedium">
@@ -97,17 +96,12 @@ function LoginPage() {
             {errors.password ? (
               <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
-            <Text variant="titleSmall">
-              <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Registration' as never); 
-              }
-            }
-              >
-                <Text style={styles.registerSwitchText}>
-                  Register a new Account
-                </Text>
-              </TouchableOpacity>
+            <Text
+              variant="titleSmall"
+              style={styles.registerSwitchText}
+              onPress={() => navigation.navigate("Registration" as never)}
+            >
+              Register a new Account
             </Text>
             <Button
               mode="contained"

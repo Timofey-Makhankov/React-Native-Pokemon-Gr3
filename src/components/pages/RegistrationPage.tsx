@@ -47,7 +47,7 @@ function RegistrationPage() {
           if (accessToken) {
             console.log(accessToken);
             console.log("Registration successful. Access Token:", accessToken);
-            navigation.navigate('Main' as never); 
+            navigation.navigate("Main" as never);
           } else {
             console.log("Registration failed. No access token received.");
             alert("Invalid Registration");
@@ -62,13 +62,13 @@ function RegistrationPage() {
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("./assets/wp10311654.png")}
+          source={require("../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("./assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
             <Text style={{ fontWeight: "600" }} variant="displayMedium">
@@ -160,15 +160,12 @@ function RegistrationPage() {
             {errors.age ? (
               <Text style={styles.errorText}>{errors.age}</Text>
             ) : null}
-            <Text variant="titleSmall">
-              <TouchableOpacity onPress={() => {
-                                navigation.navigate('Login' as never); 
-
-              }}> 
-              <Text style={styles.registerSwitchText}>
-                Already Registered? Login
-              </Text>
-             </TouchableOpacity>
+            <Text
+              variant="titleSmall"
+              style={styles.registerSwitchText}
+              onPress={() => navigation.navigate("Login" as never)}
+            >
+              Already Registered? Login
             </Text>
             <Button
               mode="contained"

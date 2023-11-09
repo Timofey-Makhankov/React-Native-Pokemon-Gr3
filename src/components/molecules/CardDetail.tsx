@@ -3,7 +3,7 @@ import { Text, useTheme } from 'react-native-paper'
 import { View, StyleSheet } from 'react-native'
 
 /**
- * 
+ * The Card Details of pokemon stats for the pokemon card
  * @param info with the pokemon base data
  * @returns Card Details function for the pokemon card
  * @see {@link PokemonBaseType}

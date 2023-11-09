@@ -93,6 +93,10 @@ const exampleDate: PokemonType[] = [{
 }
 ]
 
+/**
+ * Pokedex Page with all the pokemons in a list
+ * @returns Pokedex Page component
+ */
 export default function PokedexPage() {
     const [searchQuery, setSearchQuery] = React.useState('');
     const onChangeSearch = (query: string) => setSearchQuery(query);
