@@ -1,6 +1,17 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { defaultAxiosInstance } from "./Api";
 import * as SecureStore from "expo-secure-store";
+
+type userResponse = {
+  accessToken: string,
+  user: {
+    id?: number,
+    email: string,
+    firstName?: string
+    lastName?: string,
+    age: number
+  }
+}
 
 /**
  * The Authorization for authorizing users
@@ -31,8 +42,9 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
       email: email,
       password: password,
     };
-    const data = await api.post("/login", input);
+    const data: AxiosResponse<userResponse> = await api.post("/login", input);
     await SecureStore.setItemAsync("access_token", data.data.accessToken);
+    await SecureStore.setItemAsync("user_detail", JSON.stringify(data.data.user));
     return data.data.accessToken;
   },
 
@@ -43,7 +55,7 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
     const accessToken = await SecureStore.getItemAsync("access_token");
     if (accessToken) {
       await SecureStore.deleteItemAsync("access_token");
-      axios.defaults.headers.common["Authorization"] = "";
+      await SecureStore.deleteItemAsync("user_detail");
     }
   },
 
@@ -70,8 +82,9 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
       lastName: lastName,
       age: age,
     };
-    const data = await api.post("/register", input);
+    const data: AxiosResponse<userResponse> = await api.post("/register", input);
     await SecureStore.setItemAsync("access_token", data.data.accessToken);
+    await SecureStore.setItemAsync("user_detail", JSON.stringify(data.data.user));
     return data.data.accessToken;
   },
 });
