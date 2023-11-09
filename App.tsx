@@ -7,13 +7,17 @@ import { PaperProvider } from "react-native-paper";
 import PokedexPage from "./src/components/pages/PokedexPage";
 import ProfilePage from "./src/components/pages/ProfilePage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CreateEditPage from "./src/components/pages/CreateEditPage/CreateEditPage";
 import AuthorizationService from "./src/services/AuthorisationService";
 import { useEffect, useState } from "react";
-import CreateEditPage from "./src/components/pages/CreateEditPage";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+/**
+ * Entry Point of the App
+ * @returns App Component
+ */
 export default function App() {
   const [initialRoute, setInitialRoute] = useState('Login');
 
@@ -31,7 +35,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Main" component={MainTabs} />
-          <Stack.Screen name="CreateEdit" component={CreateEditPage} /> 
+          <Stack.Screen name="CreateEdit" component={HomePage} /> 
           <Stack.Screen name="Login" component={LoginPage} />
         </Stack.Navigator>
       </NavigationContainer>

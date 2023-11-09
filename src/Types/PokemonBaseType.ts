@@ -1,3 +1,6 @@
+/**
+ * Pokemons stats as object representation
+ */
 type PokemonBaseType = {
     HP: number,
     Attack: number,

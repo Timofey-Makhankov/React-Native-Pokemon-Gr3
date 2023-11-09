@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
     }
 })
 
+/**
+ * return a pokemon Type Chip that corresponds to given Type with colors
+ * @param type {@link ElementType} of a pokemon
+ * @returns Type Chip component
+ */
 export default function TypeChip({ type }: { type: ElementType }) {
     const { container, text }: ChipColorsType = getChipColorFromType(type)
     return (

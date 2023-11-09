@@ -9,66 +9,13 @@ import PokemonType from '../../../Types/PokemonType'
 import PokemonService from '../../../services/PokemonService'
 import { AxiosError, AxiosResponse } from 'axios'
 
-const styles = StyleSheet.create({
-    screen: {
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-        paddingHorizontal: 64,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
-    backgroundImage: {
-        flex: 1,
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
-    },
-    image: {
-        width: '100%',
-        height: 100,
-        marginTop: 64,
-        marginBottom: 32,
-    },
-    textField: {
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        marginBottom: 16
-    },
-    button: {
-        backgroundColor: '#FFCB05',
-        borderColor: '#3368B1',
-        borderWidth: 1,
-        width: 150,
-        borderRadius: 12,
-        alignSelf: 'center',
-        marginBottom: 32
-    }
-})
-
-type formikValues = {
-    name: string,
-    type: string,
-    secondType: string,
-    hp: string,
-    attack: string,
-    defense: string,
-    spAttack: string,
-    spDefense: string,
-    speed: string
-}
-
-const formikSchema = yup.object().shape({
-    name: yup.string().required("Required"),
-    type: yup.mixed<ElementType>().oneOf(Object.values(TYPE), "Has to be a valid Pokemon Type").required("Required"),
-    secondType: yup.mixed<ElementType | "">().oneOf([...Object.values(TYPE), ""], "Has to be a valid Pokemon Type"),
-    hp: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-    attack: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-    defense: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-    spAttack: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-    spDefense: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-    speed: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
-})
-
+/**
+ * Return a Edit or create Page, given the provided information
+ * @param buttonText string to label the submit button
+ * @param pokemonId number to make it an edit page, if undefined, then make it a create page
+ * @returns CreateEditPage component
+ */
 export default function CreateEditPage({ buttonText, pokemonId }: { buttonText: String, pokemonId: number | undefined }) {
-
     useEffect(() => {
         console.log("inside useEffect")
         if (pokemonId !== undefined) {
@@ -372,3 +319,61 @@ export default function CreateEditPage({ buttonText, pokemonId }: { buttonText: 
         </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        display: 'flex',
+        width: '100%',
+        height: '100%',
+        paddingHorizontal: 64,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
+    backgroundImage: {
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    image: {
+        width: '100%',
+        height: 100,
+        marginTop: 64,
+        marginBottom: 32,
+    },
+    textField: {
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        marginBottom: 16
+    },
+    button: {
+        backgroundColor: '#FFCB05',
+        borderColor: '#3368B1',
+        borderWidth: 1,
+        width: 150,
+        borderRadius: 12,
+        alignSelf: 'center',
+        marginBottom: 32
+    }
+})
+
+type formikValues = {
+    name: string,
+    type: string,
+    secondType: string,
+    hp: string,
+    attack: string,
+    defense: string,
+    spAttack: string,
+    spDefense: string,
+    speed: string
+}
+
+const formikSchema = yup.object().shape({
+    name: yup.string().required("Required"),
+    type: yup.mixed<ElementType>().oneOf(Object.values(TYPE), "Has to be a valid Pokemon Type").required("Required"),
+    secondType: yup.mixed<ElementType | "">().oneOf([...Object.values(TYPE), ""], "Has to be a valid Pokemon Type"),
+    hp: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+    attack: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+    defense: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+    spAttack: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+    spDefense: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+    speed: yup.number().typeError("Please Enter a Valid Number").integer("Please Enter a whole number ").positive("Enter a Positive Number"),
+})

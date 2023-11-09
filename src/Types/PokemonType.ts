@@ -1,5 +1,8 @@
 import ElementType from "./ElementType"
 
+/**
+ * Object representation of a Pokemon
+ */
 type PokemonType = {
     id?: number,
     name: {
