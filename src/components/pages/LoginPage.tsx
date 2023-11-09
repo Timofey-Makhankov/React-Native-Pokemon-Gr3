@@ -50,13 +50,13 @@ export default function App() {
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("../../../../assets/wp10311654.png")}
+          source={require("../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("../../../../assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
             <Text variant="displayLarge">Login</Text>
