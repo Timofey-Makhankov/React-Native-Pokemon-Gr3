@@ -14,6 +14,10 @@ import { useEffect, useState } from "react";
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+/**
+ * Entry Point of the App
+ * @returns App Component
+ */
 export default function App() {
   const [initialRoute, setInitialRoute] = useState('Login');
 
