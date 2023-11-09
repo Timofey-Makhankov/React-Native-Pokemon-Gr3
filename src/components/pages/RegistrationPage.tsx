@@ -1,20 +1,20 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import * as SecureStore from "expo-secure-store";
 import {
   View,
   StyleSheet,
   Image,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import AuthorizationService from "../../../src/services/AuthorisationService";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 function RegistrationPage() {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <Formik
@@ -47,7 +47,7 @@ function RegistrationPage() {
           if (accessToken) {
             console.log(accessToken);
             console.log("Registration successful. Access Token:", accessToken);
-            // navigation.navigate("Home");
+            navigation.navigate('Main' as never); 
           } else {
             console.log("Registration failed. No access token received.");
             alert("Invalid Registration");
@@ -161,11 +161,14 @@ function RegistrationPage() {
               <Text style={styles.errorText}>{errors.age}</Text>
             ) : null}
             <Text variant="titleSmall">
-              {/* <TouchableOpacity onPress={() => navigation.navigate("Login")}> */}
+              <TouchableOpacity onPress={() => {
+                                navigation.navigate('Login' as never); 
+
+              }}> 
               <Text style={styles.registerSwitchText}>
                 Already Registered? Login
               </Text>
-              {/* </TouchableOpacity> */}
+             </TouchableOpacity>
             </Text>
             <Button
               mode="contained"

@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import * as SecureStore from "expo-secure-store";
 import {
   View,
   StyleSheet,
@@ -36,7 +35,7 @@ function LoginPage() {
           if (accessToken) {
             console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
-            // navigation.navigate("Home");
+            navigation.navigate('Main' as never); 
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");
@@ -100,7 +99,10 @@ function LoginPage() {
             ) : null}
             <Text variant="titleSmall">
               <TouchableOpacity
-              // onPress={() => navigation.navigate("Registration")}
+              onPress={() => {
+                navigation.navigate('Registration' as never); 
+              }
+            }
               >
                 <Text style={styles.registerSwitchText}>
                   Register a new Account
