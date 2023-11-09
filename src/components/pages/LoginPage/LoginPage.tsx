@@ -16,10 +16,6 @@ import axios from "axios";
 
 export default function App() {
   const navigation = useNavigation();
-  async function saveToken(token: string) {
-    await SecureStore.setItemAsync("bearerToken", token);
-  }
-
   async function authenticateUser() {
     const accessToken = await SecureStore.getItemAsync("access_token");
 
@@ -47,11 +43,10 @@ export default function App() {
           console.log(accessToken);
 
           if (accessToken) {
-            saveToken(accessToken);
             authenticateUser();
             console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate("Home");
+            navigation.navigate('Main' as never);
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");
@@ -66,13 +61,13 @@ export default function App() {
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("./assets/wp10311654.png")}
+          source={require("../../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("./assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
             <Text variant="displayLarge">Login</Text>

@@ -8,6 +8,14 @@ import * as SecureStore from "expo-secure-store";
  * @returns a list of function used by the service
  */
 const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
+  checkActiveToken: async () => {
+    const accessToken = await SecureStore.getItemAsync("acces_token")
+    if(accessToken){
+      return true;
+    }
+    return false;
+  },
+
 
   /**
    * log a user and save the JWT token to device
