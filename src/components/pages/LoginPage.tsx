@@ -24,10 +24,8 @@ export default function App() {
         password: Yup.string().required("Required"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
-        const accessToken = await authService
-          .logInUser(values.email, values.password)
-          .then(() => {
+        AuthorizationService().logInUser(values.email, values.password)
+          .then((accessToken) => {
             console.log("Login successful. Access Token:", accessToken);
             navigation.navigate(BOTTOM_NAV_BAR as never);
           })
@@ -35,7 +33,6 @@ export default function App() {
             console.error("An error occurred during login:", error);
             alert("An error occurred during login.");
           });
-
         setSubmitting(false);
       }}
     >

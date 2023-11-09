@@ -20,6 +20,17 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
     },
+    searchBar: {
+        marginTop: 16,
+        backgroundColor:
+        'rgba(255, 255, 255, 0.2)',
+        color: 'white' 
+    },
+    image: {
+        width: '100%',
+        height: '15%',
+        marginTop: 32
+    }
 })
 
 /**
@@ -37,7 +48,7 @@ export default function PokedexPage() {
     const [pokemonList, setPokemonList] = useState<PokemonType[]>([])
     const [filterdList, setFilteredList] = useState<PokemonType[]>([])
     const [refreshing, setRefreshing] = useState(false)
-    
+
     useEffect(() => {
         updateList()
     }, [])
@@ -45,31 +56,32 @@ export default function PokedexPage() {
     const updateList = () => {
         setRefreshing(true)
         PokemonService().getAll()
-      .then((value) => {
-        console.log(value)
-        setPokemonList(value.data)
-        setFilteredList(value.data)
-    })
-      .catch((error) => console.log(error))
-      .finally(() => { setRefreshing(false) })
+            .then((value) => {
+                console.log(value)
+                setPokemonList(value.data)
+                setFilteredList(value.data)
+            })
+            .catch((error) => console.log(error))
+            .finally(() => { setRefreshing(false) })
     }
-    
+
 
     return (
         <ImageBackground source={require('../../../assets/wp10311654.png')} style={{ width: '100%', height: '100%' }} blurRadius={8}>
             <SafeAreaView style={[styles.screen]}>
-                <Image style={{ width: '100%', height: '15%', marginTop: 32 }} source={require('../../../assets/International_Pokémon_logo.svg.png')} resizeMode='contain' />
+                <Image style={styles.image} source={require('../../../assets/International_Pokémon_logo.svg.png')} resizeMode='contain' />
                 <Searchbar
-                style = {{ marginTop: 16, backgroundColor: 'rgba(255, 255, 255, 0.2)', color: 'white' }}
+                    style={styles.searchBar}
                     placeholder="Search"
                     onChangeText={onChangeSearch}
                     value={searchQuery}
                 />
-                <View style={{ paddingTop: 16, height: '72%' }}>
+                <View style={{ paddingTop: 32, height: '72%' }}>
                     <FlatList
+                    style={{ marginBottom: 64 }}
                         data={filterdList}
                         refreshing={refreshing}
-                        onRefresh={ () => updateList() }
+                        onRefresh={() => updateList()}
                         renderItem={item => <PokemonCard pokemonData={item.item} />}
                         keyExtractor={(item) => `${item.id}`}
                         ItemSeparatorComponent={() => (<View style={{ height: 16 }} />)}
@@ -79,7 +91,7 @@ export default function PokedexPage() {
                 <FAB
                     icon='plus'
                     style={[styles.fab]}
-                    onPress={() => { navigation.navigate(CREATE_PAGE, {pokemonId: undefined, buttonText: "Create"}) }}
+                    onPress={() => { navigation.navigate(CREATE_PAGE, { pokemonId: undefined, buttonText: "Create" }) }}
                 />
             </SafeAreaView>
         </ImageBackground>
