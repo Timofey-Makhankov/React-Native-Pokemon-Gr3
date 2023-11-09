@@ -6,6 +6,7 @@ In diesem Abschnitt werden wir Ihnen eine kurze Anleitung zur Einrichtung unsere
 Die Dokumentation findet man unter dem doc Folder
 
 [Dokumentation als PDF]()
+
 [Manual Testing Sheet auf Excel](./doc/Manual%20Testing.xlsx)
 
 ## Vorbereitung:
