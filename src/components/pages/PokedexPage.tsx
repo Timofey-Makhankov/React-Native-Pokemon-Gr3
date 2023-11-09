@@ -78,6 +78,7 @@ export default function PokedexPage() {
                 />
                 <View style={{ paddingTop: 32, height: '72%' }}>
                     <FlatList
+                    style={{ marginBottom: 64 }}
                         data={filterdList}
                         refreshing={refreshing}
                         onRefresh={() => updateList()}
