@@ -1,3 +1,6 @@
+/**
+ * All given vairants, that a pokemon can be
+ */
 export const TYPE = {
     FIRE: "Fire",
     GRASS: "Grass",
@@ -21,6 +24,9 @@ export const TYPE = {
 
 type ObjectValues<T> = T[keyof T]
 
+/**
+ * Make all pokemon types be a Type
+ */
 type ElementType = ObjectValues<typeof TYPE>
 
 export default ElementType
