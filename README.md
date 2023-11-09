@@ -38,6 +38,6 @@ Nachdem alles reibungslos funktioniert, werden Sie die App sehen können.
 
 Die Dokumentation findet man unter dem doc Folder
 
-[Dokumentation als PDF]()
+[Dokumentation als PDF](./doc/React-Native-Pokemon-Gr3_documentation_Aabish_Nikola_Timofey.pdf)
 
 [Manual Testing Sheet auf Excel](./doc/Manual%20Testing.xlsx)
