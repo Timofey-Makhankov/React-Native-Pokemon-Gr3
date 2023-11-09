@@ -69,7 +69,7 @@ export default function CreateEditPage() {
         }
         console.log(newPokemon)
 
-        if (pokemonId !== undefined) {
+        if (pokemonId === undefined) {
             PokemonService().create(newPokemon).then((value) => {
                 console.log(value.data)
                 navigation.goBack()
