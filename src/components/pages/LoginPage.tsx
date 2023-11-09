@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import * as SecureStore from "expo-secure-store";
 import {
   View,
   StyleSheet,
@@ -10,20 +9,12 @@ import {
   ImageBackground,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import AuthorizationService from "../../../services/AuthorisationService";
+import AuthorizationService from "../../../src/services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+import { REGISTER_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
 
 export default function App() {
   const navigation = useNavigation();
-  async function authenticateUser() {
-    const accessToken = await SecureStore.getItemAsync("access_token");
-
-    if (accessToken) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      console.log(accessToken);
-    }
-  }
 
   return (
     <Formik
@@ -33,41 +24,30 @@ export default function App() {
         password: Yup.string().required("Required"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        try {
-          const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
-          const accessToken = await authService.logInUser(
-            values.email,
-            values.password
-          );
-
-          console.log(accessToken);
-
-          if (accessToken) {
-            authenticateUser();
-            console.log(accessToken);
+        const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
+        const accessToken = await authService
+          .logInUser(values.email, values.password)
+          .then(() => {
             console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate('Main' as never);
-          } else {
-            console.log("Login failed. No access token received.");
-            alert("Invalid Login");
-          }
-        } catch (error) {
-          console.error("An error occurred during login:", error);
-          alert("An error occurred during login.");
-        }
+            navigation.navigate(BOTTOM_NAV_BAR as never);
+          })
+          .catch((error) => {
+            console.error("An error occurred during login:", error);
+            alert("An error occurred during login.");
+          });
 
         setSubmitting(false);
       }}
     >
       {({ handleSubmit, values, handleChange, errors }) => (
         <ImageBackground
-          source={require("../../../../assets/wp10311654.png")}
+          source={require("../../../assets/wp10311654.png")}
           style={{ width: "100%", height: "100%" }}
           blurRadius={6}
         >
           <View style={styles.container}>
             <Image
-              source={require("../../../../assets/International_Pokémon_logo.svg.png")}
+              source={require("../../../assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
             <Text variant="displayLarge">Login</Text>
@@ -106,7 +86,11 @@ export default function App() {
             {errors.password ? (
               <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
-            <Text style={styles.registerSwitchText} variant="titleSmall">
+            <Text
+              style={styles.registerSwitchText}
+              variant="titleSmall"
+              onPress={() => navigation.navigate(REGISTER_PAGE as never)}
+            >
               Register a new Account
             </Text>
             <Button

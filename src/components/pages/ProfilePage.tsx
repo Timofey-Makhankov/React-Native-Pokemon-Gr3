@@ -1,18 +1,7 @@
-import { View, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import React from "react";
 
-export default function ProfilePage() {
-  return (
-    <View style={style.container}>
-      <Text>dfsdfsdfsfsf</Text>
-    </View>
-  );
+function ProfilePage() {
+  return <></>;
 }
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  }
-});
+export default ProfilePage;

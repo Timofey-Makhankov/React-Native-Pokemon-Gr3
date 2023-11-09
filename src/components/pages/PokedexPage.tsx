@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, View, ImageBackground, Image, FlatList } from 'react-native'
 import { BottomNavigation, FAB, Searchbar } from 'react-native-paper'
 import PokemonCard from '../organisms/PokemonCard'
 import PokemonType from '../../Types/PokemonType'
+import PokemonService from '../../services/PokemonService'
+import { useNavigation } from '@react-navigation/native'
+import { CREATE_PAGE } from '../../util/ScreenRouterLinks'
 
 const styles = StyleSheet.create({
     screen: {
@@ -19,88 +22,39 @@ const styles = StyleSheet.create({
     },
 })
 
-const exampleDate: PokemonType[] = [{
-    id: 4,
-    name: {
-        english: 'Charmander',
-        japanese: '',
-        chinese: '',
-        french: ''
-    },
-    type: ['Fire'],
-    base: {
-        HP: 45,
-        Attack: 45,
-        Defense: 45,
-        "Sp. Attack": 45,
-        "Sp. Defense": 45,
-        Speed: 45
-    }
-},
-{
-    id: 5,
-    name: {
-        english: 'Charmeleon',
-        japanese: '',
-        chinese: '',
-        french: ''
-    },
-    type: ['Fire'],
-    base: {
-        HP: 45,
-        Attack: 45,
-        Defense: 45,
-        "Sp. Attack": 45,
-        "Sp. Defense": 45,
-        Speed: 45
-    }
-},
-{
-    id: 6,
-    name: {
-        english: 'Charizard',
-        japanese: '',
-        chinese: '',
-        french: ''
-    },
-    type: ['Fire'],
-    base: {
-        HP: 45,
-        Attack: 45,
-        Defense: 45,
-        "Sp. Attack": 45,
-        "Sp. Defense": 45,
-        Speed: 45
-    }
-},
-{
-    id: 7,
-    name: {
-        english: 'Squirtle',
-        japanese: '',
-        chinese: '',
-        french: ''
-    },
-    type: ['Water'],
-    base: {
-        HP: 45,
-        Attack: 45,
-        Defense: 45,
-        "Sp. Attack": 45,
-        "Sp. Defense": 45,
-        Speed: 45
-    }
-}
-]
-
 /**
  * Pokedex Page with all the pokemons in a list
  * @returns Pokedex Page component
  */
 export default function PokedexPage() {
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const onChangeSearch = (query: string) => setSearchQuery(query);
+    const navigation = useNavigation<any>();
+    const [searchQuery, setSearchQuery] = useState('');
+    const onChangeSearch = (query: string) => {
+        setSearchQuery(query)
+        const newlist = pokemonList.filter(pokemon => pokemon.name.english.toLowerCase().includes(query.toLowerCase()))
+        setFilteredList(newlist)
+    };
+    const [pokemonList, setPokemonList] = useState<PokemonType[]>([])
+    const [filterdList, setFilteredList] = useState<PokemonType[]>([])
+    const [refreshing, setRefreshing] = useState(false)
     
+    useEffect(() => {
+        updateList()
+    }, [])
+
+    const updateList = () => {
+        setRefreshing(true)
+        PokemonService().getAll()
+      .then((value) => {
+        console.log(value)
+        setPokemonList(value.data)
+        setFilteredList(value.data)
+    })
+      .catch((error) => console.log(error))
+      .finally(() => { setRefreshing(false) })
+    }
+    
+
     return (
         <ImageBackground source={require('../../../assets/wp10311654.png')} style={{ width: '100%', height: '100%' }} blurRadius={8}>
             <SafeAreaView style={[styles.screen]}>
@@ -113,7 +67,9 @@ export default function PokedexPage() {
                 />
                 <View style={{ paddingTop: 16, height: '72%' }}>
                     <FlatList
-                        data={exampleDate}
+                        data={filterdList}
+                        refreshing={refreshing}
+                        onRefresh={ () => updateList() }
                         renderItem={item => <PokemonCard pokemonData={item.item} />}
                         keyExtractor={(item) => `${item.id}`}
                         ItemSeparatorComponent={() => (<View style={{ height: 16 }} />)}
@@ -123,7 +79,7 @@ export default function PokedexPage() {
                 <FAB
                     icon='plus'
                     style={[styles.fab]}
-                    onPress={() => { }}
+                    onPress={() => { navigation.navigate(CREATE_PAGE, {pokemonId: undefined, buttonText: "Create"}) }}
                 />
             </SafeAreaView>
         </ImageBackground>
