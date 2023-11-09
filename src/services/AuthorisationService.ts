@@ -24,10 +24,19 @@ const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
     }
   },
 
-  registerUser: async (email: string, password: string) => {
+  registerUser: async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    age: string
+  ) => {
     const input = {
       email: email,
       password: password,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
     };
     const data = await api.post("/register", input);
     await SecureStore.setItemAsync("access_token", data.data.accessToken);

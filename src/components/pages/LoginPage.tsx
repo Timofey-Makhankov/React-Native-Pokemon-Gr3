@@ -8,26 +8,14 @@ import {
   Image,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import AuthorizationService from "../../../services/AuthorisationService";
+import AuthorizationService from "../../services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
-export default function App() {
+function LoginPage() {
   const navigation = useNavigation();
-  async function saveToken(token: string) {
-    await SecureStore.setItemAsync("bearerToken", token);
-  }
-
-  async function authenticateUser() {
-    const accessToken = await SecureStore.getItemAsync("access_token");
-
-    if (accessToken) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      console.log(accessToken);
-    }
-  }
 
   return (
     <Formik
@@ -38,8 +26,7 @@ export default function App() {
       })}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
-          const accessToken = await authService.logInUser(
+          const accessToken = await AuthorizationService().logInUser(
             values.email,
             values.password
           );
@@ -47,11 +34,9 @@ export default function App() {
           console.log(accessToken);
 
           if (accessToken) {
-            saveToken(accessToken);
-            authenticateUser();
             console.log(accessToken);
             console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate("Home");
+            // navigation.navigate("Home");
           } else {
             console.log("Login failed. No access token received.");
             alert("Invalid Login");
@@ -75,12 +60,14 @@ export default function App() {
               source={require("./assets/International_Pokémon_logo.svg.png")}
               style={styles.imageLogo}
             />
-            <Text variant="displayLarge">Login</Text>
+            <Text style={{ fontWeight: "600" }} variant="displayMedium">
+              Login
+            </Text>
             <TextInput
               label="E-Mail"
               style={styles.inputField}
               mode="outlined"
-              value={values.email} // The current email input value
+              value={values.email}
               onChangeText={handleChange("email")}
               textColor="white"
               theme={{
@@ -111,8 +98,14 @@ export default function App() {
             {errors.password ? (
               <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
-            <Text style={styles.registerSwitchText} variant="titleSmall">
-              Register a new Account
+            <Text variant="titleSmall">
+              <TouchableOpacity
+              // onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.registerSwitchText}>
+                  Register a new Account
+                </Text>
+              </TouchableOpacity>
             </Text>
             <Button
               mode="contained"
@@ -172,3 +165,5 @@ const styles = StyleSheet.create({
     color: "#000",
   },
 });
+
+export default LoginPage;
