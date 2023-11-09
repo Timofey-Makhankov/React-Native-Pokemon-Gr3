@@ -3,6 +3,14 @@ import { defaultAxiosInstance } from "./Api";
 import * as SecureStore from "expo-secure-store";
 
 const AuthorizationService = (api: AxiosInstance = defaultAxiosInstance) => ({
+  checkActiveToken: async () => {
+    const accessToken = await SecureStore.getItemAsync("acces_token")
+    if(accessToken){
+      return true;
+    }
+    return false;
+  },
+
   logInUser: async (email: string, password: string) => {
     const input = {
       email: email,
