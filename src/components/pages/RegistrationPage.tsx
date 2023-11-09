@@ -33,7 +33,7 @@ function RegistrationPage() {
           .max(2),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        const accessToken = await AuthorizationService()
+        AuthorizationService()
           .registerUser(
             values.email,
             values.password,
@@ -41,7 +41,7 @@ function RegistrationPage() {
             values.lastName,
             values.age
           )
-          .then(() => {
+          .then((accessToken) => {
             console.log("Registration successful. Access Token:", accessToken);
             navigation.navigate(BOTTOM_NAV_BAR as never);
           })
@@ -50,6 +50,11 @@ function RegistrationPage() {
             alert("An error occurred during Registration.");
           });
 
+        values.email = "";
+        values.password = "";
+        values.firstName = "";
+        values.lastName = "";
+        values.age = "";
         setSubmitting(false);
       }}
     >
