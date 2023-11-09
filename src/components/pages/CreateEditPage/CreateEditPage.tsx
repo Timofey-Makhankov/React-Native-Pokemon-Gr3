@@ -74,14 +74,14 @@ export default function CreateEditPage() {
                 console.log(value.data)
                 navigation.goBack()
             }
-            ).catch(error => console.log(error))
+            ).catch((error: AxiosError) => console.log(error.message))
         } else {
             PokemonService().update(pokemonId, newPokemon).then((value) => {
                 console.log(value.data)
                 navigation.goBack()
             }
             )
-            .catch(error => {console.log(error)})
+            .catch((error: AxiosError) => {console.log(error.message)})
         }
     }
 
