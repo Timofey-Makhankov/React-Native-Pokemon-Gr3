@@ -1,20 +1,31 @@
 import React from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import * as SecureStore from "expo-secure-store";
 import {
   View,
   StyleSheet,
   Image,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
-import AuthorizationService from "../../../src/services/AuthorisationService";
+import AuthorizationService from "../../../services/AuthorisationService";
 import { useNavigation } from "@react-navigation/native";
-import { REGISTER_PAGE, BOTTOM_NAV_BAR } from "../../util/ScreenRouterLinks";
+import axios from "axios";
+import { BOTTOM_NAV_BAR, REGISTER_PAGE } from "../../../util/ScreenRouterLinks";
 
 export default function App() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  async function authenticateUser() {
+    const accessToken = await SecureStore.getItemAsync("access_token");
+
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      console.log(accessToken);
+    }
+  }
 
   return (
     <Formik
@@ -24,27 +35,25 @@ export default function App() {
         password: Yup.string().required("Required"),
       })}
       onSubmit={async (values, { setSubmitting }) => {
-        try {
-          const authService = AuthorizationService(); // Call the function to get an instance of AuthorizationService
-          const accessToken = await authService.logInUser(
+          AuthorizationService().logInUser(
             values.email,
             values.password
-          );
-
-          console.log(accessToken);
-
-          if (accessToken) {
-            console.log("Login successful. Access Token:", accessToken);
-            navigation.navigate(BOTTOM_NAV_BAR as never);
-          } else {
-            console.log("Login failed. No access token received.");
-            alert("Invalid Login");
-          }
-        } catch (error) {
-          console.error("An error occurred during login:", error);
+          )
+          .then((token) => {
+            if (token) {
+              authenticateUser();
+              console.log(token);
+              console.log("Login successful. Access Token:", token);
+              navigation.navigate(BOTTOM_NAV_BAR);
+            } else {
+              console.log("Login failed. No access token received.");
+              alert("Invalid Login");
+            }
+          })
+          .catch((error) => {
+            console.error("An error occurred during login:", error);
           alert("An error occurred during login.");
-        }
-
+          })
         setSubmitting(false);
       }}
     >
@@ -95,13 +104,11 @@ export default function App() {
             {errors.password ? (
               <Text style={styles.errorText}>{errors.password}</Text>
             ) : null}
-            <Text
-              style={styles.registerSwitchText}
-              variant="titleSmall"
-              onPress={() => navigation.navigate(REGISTER_PAGE as never)}
-            >
-              Register a new Account
-            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate(REGISTER_PAGE as never)}>
+              <Text style={styles.registerSwitchText} variant="titleSmall">
+                Register a new Account
+              </Text>
+            </TouchableOpacity>
             <Button
               mode="contained"
               labelStyle={styles.buttonText}
@@ -154,7 +161,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#D62D2D",
     fontWeight: "700",
-    textShadowColor: "FFFFFF",
+    textShadowColor: "#FFFFFF",
   },
   buttonText: {
     color: "#000",
